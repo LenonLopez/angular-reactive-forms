@@ -1,0 +1,8 @@
+{
+"cart":[],
+"products":[{ "id": 1, "price": 2800, "name": "MacBook Pro" },
+    { "id": 2, "price": 200, "name": "USB C adapter" },
+    { "id": 3, "price": 500, "name": "nexus tablet" },
+    { "id": 4, "price": 600, "name": "Iphone 6" },
+    { "id": 5, "price": 700, "name": "Asus laptop" }]
+}

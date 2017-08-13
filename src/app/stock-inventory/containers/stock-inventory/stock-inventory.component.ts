@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Product } from './../../models/product.interface';
 
 @Component({
@@ -35,23 +35,15 @@ import { Product } from './../../models/product.interface';
     `
 })
 export class StockInventoryComponent {
-    products: Product[] = [
-
-        { "id": 1, "price": 2800, "name": 'MacBook Pro' },
-        { "id": 2, "price": 200, "name": 'USB C adapter' },
-        { "id": 3, "price": 500, "name": 'nexus tablet' },
-        { "id": 4, "price": 600, "name": 'Iphone 6' },
-        { "id": 5, "price": 700, "name": 'Asus laptop' }
-    ];
-
-    form = new FormGroup(
+    products: Product[] = [];
+    form = this.fb.group(
         {
-            store: new FormGroup({
-                branch: new FormControl(''),
-                code: new FormControl('')
+            store: this.fb.group({
+                branch: '',
+                code: ''
             }),
             selector: this.createStock({}),
-            stock: new FormArray([
+            stock: this.fb.array([
                 this.createStock({ product_id: 3, quantity: 100 }),
                 this.createStock({ product_id: 4, quantity: 100 }),
                 this.createStock({ product_id: 5, quantity: 100 })
@@ -60,6 +52,8 @@ export class StockInventoryComponent {
         }
     );
 
+    constructor(private fb: FormBuilder) {}
+
     private get selectorStock() {
         return this.form.get('selector') as FormGroup;
     }
@@ -67,9 +61,9 @@ export class StockInventoryComponent {
         return this.form.get('stock') as FormArray;
     }
     private createStock(stock) {
-        return new FormGroup({
-            product_id: new FormControl(parseInt(stock.product_id, 10) || ''),
-            quantity: new FormControl(stock.quantity || 10)
+        return this.fb.group({
+            product_id: parseInt(stock.product_id, 10) || '',
+            quantity: stock.quantity || 10
         })
     }
     onSubmit() {
